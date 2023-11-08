@@ -17,9 +17,9 @@ int main() {
 	glewExperimental = GL_TRUE;
 	glewInit();
 
-	// Scene* scene = new Triangle;
-	// Scene* scene = new Rectangle;
-	Scene* scene = new Terrain;
+	// Scene* triangle = new Triangle;
+	// Scene* rectangle = new Rectangle;
+	Scene* terrain = new Terrain;
 	Camera camera(
 		glm::vec3(0.0f, 0.0f, 1.0f), // position
 		glm::vec3(0.0f, 1.0f, 0.0f) // up
@@ -59,8 +59,12 @@ int main() {
 			camera.ProcessKeyboard(BACKWARD, deltaTime);
 		}
 
-		scene->update(deltaTime, camera);
-		scene->display(window);
+		// triangle->update(deltaTime, camera);
+		// triangle->display(window);
+		// rectangle->update(deltaTime, camera);
+		// rectangle->display(window);
+		terrain->update(deltaTime, camera);
+		terrain->display(window);
 		window.display();
 	}
 

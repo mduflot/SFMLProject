@@ -20,4 +20,6 @@ class Terrain : public Scene {
 		glm::mat4 model;
 		glm::mat4 proj;
 		glm::mat4 view;
+		unsigned int widthMap;
+		unsigned int heightMap;
 };
