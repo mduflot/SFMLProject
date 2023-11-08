@@ -6,6 +6,6 @@ class Triangle : public Scene {
 		Triangle();
 		~Triangle();
 		virtual void display(sf::Window& window) override;
-		virtual void update(sf::Time elapsed) override;
+		virtual void update(float elapsed, const Camera& camera) override;
 };
 

@@ -10,10 +10,8 @@ class Rectangle : public Scene {
 		Rectangle();
 		~Rectangle();
 		virtual void display(sf::Window& window) override;
-		virtual void update(sf::Time elapsed) override;
+		virtual void update(float elapsed, const Camera& camera) override;
 	protected :
-		float rotation;
-		float scale;
 		GLuint ebo;
 		GLuint texture;
 		GLint uniModel;

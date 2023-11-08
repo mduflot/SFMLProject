@@ -4,18 +4,15 @@
 #define GLSL(shader) "#version 330 core\n" #shader
 
 Rectangle::Rectangle() : Scene() {
-	rotation = 90.0f;
-	scale = 0.5f;
-	
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 
 	GLfloat vertices[] = {
 		 /* FORWARD FACE */
-		-0.5f,  0.5f, 0.0f,     1.0f, 0.0f, 1.0f, 1.0f,   0.0f, 1.0f, // 0
-		 0.5f,  0.5f, 0.0f,     0.0f, 1.0f, 1.0f, 1.0f,   1.0f, 1.0f, // 1
-		 0.5f, -0.5f, 0.0f,     1.0f, 1.0f, 0.0f, 1.0f,   1.0f, 0.0f, // 2
-		-0.5f, -0.5f, 0.0f,     0.0f, 1.0f, 1.0f, 1.0f,   0.0f, 0.0f, // 3
+		-0.5f,  0.5f,  0.0f,    1.0f, 0.0f, 1.0f, 1.0f,   0.0f, 1.0f, // 0
+		 0.5f,  0.5f,  0.0f,    0.0f, 1.0f, 1.0f, 1.0f,   1.0f, 1.0f, // 1
+		 0.5f, -0.5f,  0.0f,    1.0f, 1.0f, 0.0f, 1.0f,   1.0f, 0.0f, // 2
+		-0.5f, -0.5f,  0.0f,    0.0f, 1.0f, 1.0f, 1.0f,   0.0f, 0.0f, // 3
 
 		 /* RIGHT FACE */
 		 0.5f,  0.5f,  0.0f,    0.0f, 1.0f, 1.0f, 1.0f,   0.0f, 1.0f, // 4
@@ -27,7 +24,7 @@ Rectangle::Rectangle() : Scene() {
 		-0.5f,  0.5f,  0.0f,    1.0f, 0.0f, 1.0f, 1.0f,   1.0f, 1.0f, // 8
 		-0.5f,  0.5f, -1.0f,    0.0f, 1.0f, 1.0f, 1.0f,   0.0f, 1.0f, // 9
 		-0.5f, -0.5f, -1.0f,    0.0f, 1.0f, 1.0f, 1.0f,   0.0f, 0.0f, // 10
-		-0.5f, -0.5f, 0.0f,     0.0f, 1.0f, 1.0f, 1.0f,   1.0f, 0.0f, // 11
+		-0.5f, -0.5f,  0.0f,    0.0f, 1.0f, 1.0f, 1.0f,   1.0f, 0.0f, // 11
 
 		/* BACKWARD FACE */
 		-0.5f, -0.5f, -1.0f,    0.0f, 1.0f, 1.0f, 1.0f,   0.0f, 0.0f, // 12
@@ -36,16 +33,16 @@ Rectangle::Rectangle() : Scene() {
 		 0.5f,  0.5f, -1.0f,    1.0f, 0.0f, 1.0f, 1.0f,   1.0f, 1.0f, // 15
 
 		/* UPWARD FACE */
-		-0.5f,  0.5f, 0.0f,     1.0f, 0.0f, 1.0f, 1.0f,   0.0f, 0.0f, // 16
-		 0.5f,  0.5f, 0.0f,     0.0f, 1.0f, 1.0f, 1.0f,   1.0f, 0.0f, // 17
+		-0.5f,  0.5f,  0.0f,    1.0f, 0.0f, 1.0f, 1.0f,   0.0f, 0.0f, // 16
+		 0.5f,  0.5f,  0.0f,    0.0f, 1.0f, 1.0f, 1.0f,   1.0f, 0.0f, // 17
 		 0.5f,  0.5f, -1.0f,    1.0f, 0.0f, 1.0f, 1.0f,   1.0f, 1.0f, // 18
 		-0.5f,  0.5f, -1.0f,    0.0f, 1.0f, 1.0f, 1.0f,   0.0f, 1.0f, // 19
 
 		/* DOWNWARD FACE */
-		-0.5f, -0.5f, 0.0f,     0.0f, 1.0f, 1.0f, 1.0f,   0.0f, 1.0f, // 20
-		 0.5f, -0.5f, 0.0f,     1.0f, 1.0f, 0.0f, 1.0f,   1.0f, 1.0f, // 21
+		-0.5f, -0.5f,  0.0f,    0.0f, 1.0f, 1.0f, 1.0f,   0.0f, 1.0f, // 20
+		 0.5f, -0.5f,  0.0f,    1.0f, 1.0f, 0.0f, 1.0f,   1.0f, 1.0f, // 21
 		 0.5f, -0.5f, -1.0f,    0.0f, 1.0f, 1.0f, 1.0f,   1.0f, 0.0f, // 22
-		-0.5f, -0.5f, -1.0f,    0.0f, 1.0f, 1.0f, 1.0f,   0.0f, 0.0f, // 23
+		-0.5f, -0.5f, -1.0f,    0.0f, 1.0f, 1.0f, 1.0f,   0.0f, 0.0f  // 23
 	};
 
 	glGenBuffers(1, &vbo);
@@ -136,9 +133,17 @@ Rectangle::Rectangle() : Scene() {
 		in vec2 TexCoord;
 
 		uniform sampler2D myTexture;
+		uniform vec4 colorKey;
 
 		void main() {
-			outColor = texture(myTexture, TexCoord) * vec4(vColor);
+			// outColor = texture(myTexture, TexCoord) * vec4(vColor);
+			vec3 texColor = texture(myTexture, TexCoord).rgb;
+			if (texColor == vec3(1.0f, 0.0f, 0.0f)) {
+				discard;
+			} else {
+				// outColor = vec4(texColor, 1.0f) * vec4(vColor);
+				outColor = vec4(texColor, 1.0f);
+			}
 		}
 	);
 
@@ -172,16 +177,21 @@ Rectangle::Rectangle() : Scene() {
 	unsigned int width;
 	unsigned int height;
 
-	texture = BMP::loadBMP_texture("Kermit-the-Frog.bmp", width, height);
+	texture = BMP::loadBMP_texture("tree5.bmp", width, height);
 	GLint uniTexture = glGetUniformLocation(shaderProgram, "myTexture");
 	glUniform1i(uniTexture, 0);
 
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, -2.0f));
+	proj = glm::perspective(glm::radians(45.0f), 1024.0f / 768.0f, 0.01f, 100.0f);
+	view = glm::lookAt(
+		glm::vec3(0.0f, 0.0f, .0f), // position
+		glm::vec3(0.0f, 0.0f, 0.0f), // target
+		glm::vec3(0.0f, 1.0f, 0.0f)  // up
+	);
 	uniModel = glGetUniformLocation(shaderProgram, "model");
 	uniProj = glGetUniformLocation(shaderProgram, "proj");
 	uniView = glGetUniformLocation(shaderProgram, "view");
-	model = glm::mat4(1.0f);
-	proj = glm::mat4(1.0f);
-	view = glm::mat4(1.0f);
 	glUniformMatrix4fv(uniModel, 1, GL_FALSE, glm::value_ptr(model));
 	glUniformMatrix4fv(uniProj, 1, GL_FALSE, glm::value_ptr(proj));
 	glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(view));
@@ -203,12 +213,18 @@ void Rectangle::display(sf::Window& window) {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// glDrawArrays(GL_TRIANGLES, 0, 6);
 	glUniformMatrix4fv(uniModel, 1, GL_FALSE, glm::value_ptr(model));
-	glBindTexture(GL_TEXTURE_2D, texture);
+	glUniformMatrix4fv(uniProj, 1, GL_FALSE, glm::value_ptr(proj));
+	glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(view));
+	// Possible problem with window.clear() !
+	// glBindTexture(GL_TEXTURE_2D, texture);
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 	glDisable(GL_BLEND);
 }
 
-void Rectangle::update(sf::Time elapsed) {
-	model = glm::rotate(model, elapsed.asSeconds(), glm::vec3(0.0, 0.0, 1.0));
-	model = glm::rotate(model, elapsed.asSeconds(), glm::vec3(0.0, 1.0, 0.0));
+void Rectangle::update(float elapsed, const Camera& camera) {
+	model = glm::rotate(model, elapsed, glm::vec3(0.0, 0.0, 1.0));
+	model = glm::rotate(model, elapsed, glm::vec3(0.0, 1.0, 0.0));
+	model = glm::rotate(model, elapsed, glm::vec3(0.0, 1.0, 0.0));
+	proj = glm::perspective(glm::radians(camera.Zoom), 1024.0f / 768.0f, 0.01f, 100.0f);
+	view = camera.GetViewMatrix();
 }
