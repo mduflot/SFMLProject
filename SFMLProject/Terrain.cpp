@@ -21,10 +21,10 @@ Terrain::Terrain() : Scene() {
 		for (unsigned int x = 0; x < widthMap; x++) {
 			vertices[indexVertices] = (float) x;
 			vertices[indexVertices + 1] = (float) y;
-			vertices[indexVertices + 2] = (float) 0;
-
-			vertices[indexVertices + 3] = (float) (x / widthMap);
-			vertices[indexVertices + 4] = (float) (y / heightMap);
+			vertices[indexVertices + 2] = 0;
+			
+			vertices[indexVertices + 3] = ((float)x / (float)(widthMap - 1));
+			vertices[indexVertices + 4] = ((float)y / (float)(heightMap - 1));
 			indexVertices += 5;
 		}
 	}
@@ -102,19 +102,18 @@ Terrain::Terrain() : Scene() {
 
 	glActiveTexture(GL_TEXTURE0);
 
-	unsigned int width;
-	unsigned int height;
-	texture = BMP::loadBMP_texture("map.bmp", width, height);
+	texture = BMP::loadBMP_texture("map.bmp", widthMap, heightMap);
 	GLint uniTexture = glGetUniformLocation(shaderProgram, "myTexture");
 	glUniform1i(uniTexture, 0);
 
 	model = glm::mat4(1.0f);
 	proj = glm::perspective(glm::radians(45.0f), 1024.0f / 768.0f, 0.01f, 100.0f);
 	view = glm::lookAt(
-		glm::vec3(0.0f, 0.0f, .0f), // position
+		glm::vec3(0.0f, 0.0f, 2.0f), // position
 		glm::vec3(0.0f, 0.0f, 0.0f), // target
 		glm::vec3(0.0f, 1.0f, 0.0f)  // up
 	);
+
 	uniModel = glGetUniformLocation(shaderProgram, "model");
 	uniProj = glGetUniformLocation(shaderProgram, "proj");
 	uniView = glGetUniformLocation(shaderProgram, "view");
