@@ -4,6 +4,7 @@
 #include "Scene.h"
 #include "Triangle.h"
 #include "Rectangle.h"
+#include "Terrain.h"
 #include "Camera.h"
 
 int main() {
@@ -17,7 +18,8 @@ int main() {
 	glewInit();
 
 	// Scene* scene = new Triangle;
-	Scene* scene = new Rectangle;
+	// Scene* scene = new Rectangle;
+	Scene* scene = new Terrain;
 	Camera camera(
 		glm::vec3(0.0f, 0.0f, 1.0f), // position
 		glm::vec3(0.0f, 1.0f, 0.0f) // up
@@ -40,9 +42,6 @@ int main() {
 			}
 			if (event.type == sf::Event::MouseWheelScrolled) {
 				camera.ProcessMouseScroll(event.mouseWheelScroll.delta);
-			}
-			if (event.type == sf::Event::KeyPressed) {
-				
 			}
 		}
 
