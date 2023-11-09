@@ -50,17 +50,8 @@ int main() {
 		oldPos = sf::Vector2i(window.getSize().x / 2, window.getSize().y / 2);
 		sf::Mouse::setPosition(sf::Vector2i(window.getSize().x / 2, window.getSize().y / 2));
 
-		for (unsigned int y = 0; y < terrain->heightTexture; y++) {
-			for (unsigned int x = 0; x < terrain->widthTexture; x++) {
-				if (terrain->heightMap[((y * terrain->widthTexture) + x) * 3] == camera.Position.x) {
-					if (terrain->heightMap[((y * terrain->widthTexture) + x) * 3 + 2] == camera.Position.z) {
-						if (camera.Position.y <= terrain->heightMap[((y * terrain->widthTexture) + x) * 3 + 1]) {
-							std::cout << "Place: " << terrain->heightMap[((y * terrain->widthTexture) + x) * 3 + 1] << std::endl;
-							camera.Position.y = terrain->heightMap[((y * terrain->widthTexture) + x) * 3 + 1] + 10.0f;
-						}
-					}
-				}
-			}
+		if (terrain->heightMap[(((int)camera.Position.z * terrain->widthTexture) + (int)camera.Position.x) * 3 + 1] > camera.Position.y) {
+			camera.Position.y = terrain->heightMap[(((int)camera.Position.z * terrain->widthTexture) + (int)camera.Position.x) * 3 + 1] + 10.0f;
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
