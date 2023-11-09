@@ -10,21 +10,26 @@
 int main() {
 	sf::ContextSettings settings;
 	settings.depthBits = 24;
-	settings.stencilBits = 8; 
+	settings.stencilBits = 8;
 	settings.antialiasingLevel = 2;
-	sf::Window window(sf::VideoMode(1024, 768, 32), "OpenGL", sf::Style::Titlebar | sf::Style::Close, settings);
+	sf::RenderWindow window(sf::VideoMode(1024, 768, 32), "OpenGL", sf::Style::Titlebar | sf::Style::Close, settings);
 	sf::Clock clock;
 	glewExperimental = GL_TRUE;
 	glewInit();
 
+	window.setMouseCursorGrabbed(true);
+	window.setMouseCursorVisible(false);
+
 	// Scene* triangle = new Triangle;
 	// Scene* rectangle = new Rectangle;
-	Scene* terrain = new Terrain;
+	Terrain* terrain = new Terrain;
+	// Scene* skybox = new Skybox;
 	Camera camera(
-		glm::vec3(0.0f, 0.0f, 1.0f), // position
+		glm::vec3(terrain->widthTexture / 2, 20.0f, terrain->heightTexture / 2), // position
 		glm::vec3(0.0f, 1.0f, 0.0f) // up
 	);
-	sf::Vector2f oldPos = sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2);
+
+	sf::Vector2i oldPos = sf::Vector2i(window.getSize().x / 2, window.getSize().y / 2);
 
 	while (window.isOpen()) {
 		float deltaTime = clock.restart().asSeconds();
@@ -34,14 +39,27 @@ int main() {
 			if (event.type == sf::Event::Closed) {
 				window.close();
 			}
-			if (event.type == sf::Event::MouseMoved) {
-				sf::Vector2f newPos = sf::Vector2f(event.mouseMove.x, event.mouseMove.y);
-				sf::Vector2f deltaPos = oldPos - newPos;
-				camera.ProcessMouseMovement(deltaPos.x, deltaPos.y);
-				oldPos = newPos;
-			}
 			if (event.type == sf::Event::MouseWheelScrolled) {
 				camera.ProcessMouseScroll(event.mouseWheelScroll.delta);
+			}
+		}
+
+		sf::Vector2i newPos = sf::Vector2i(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
+		sf::Vector2i deltaPos = oldPos - newPos;
+		camera.ProcessMouseMovement(deltaPos.x, deltaPos.y);
+		oldPos = sf::Vector2i(window.getSize().x / 2, window.getSize().y / 2);
+		sf::Mouse::setPosition(sf::Vector2i(window.getSize().x / 2, window.getSize().y / 2));
+
+		for (unsigned int y = 0; y < terrain->heightTexture; y++) {
+			for (unsigned int x = 0; x < terrain->widthTexture; x++) {
+				if (terrain->heightMap[((y * terrain->widthTexture) + x) * 3] == camera.Position.x) {
+					if (terrain->heightMap[((y * terrain->widthTexture) + x) * 3 + 2] == camera.Position.z) {
+						if (camera.Position.y <= terrain->heightMap[((y * terrain->widthTexture) + x) * 3 + 1]) {
+							std::cout << "Place: " << terrain->heightMap[((y * terrain->widthTexture) + x) * 3 + 1] << std::endl;
+							camera.Position.y = terrain->heightMap[((y * terrain->widthTexture) + x) * 3 + 1] + 10.0f;
+						}
+					}
+				}
 			}
 		}
 
@@ -63,8 +81,10 @@ int main() {
 		// triangle->display(window);
 		// rectangle->update(deltaTime, camera);
 		// rectangle->display(window);
-		terrain->update(deltaTime, camera);
+		terrain->update(deltaTime, camera, window);
 		terrain->display(window);
+		// skybox->update(deltaTime, camera);
+		// skybox->display(window);
 		window.display();
 	}
 

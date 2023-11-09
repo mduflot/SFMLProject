@@ -139,17 +139,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bmp.cpp" />
+    <ClCompile Include="Minimap.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SFMLProject.cpp" />
+    <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bmp.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Minimap.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Skybox.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="Triangle.h" />
   </ItemGroup>

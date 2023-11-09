@@ -5,13 +5,14 @@
 #include "Scene.h"
 #include "bmp.h"
 
-class Rectangle : public Scene {
-	public :
-		Rectangle();
-		~Rectangle();
+class Skybox : public Scene {
+	public:
+		Skybox();
+		~Skybox();
 		virtual void display(sf::Window& window) override;
 		virtual void update(float elapsed, const Camera& camera, sf::Window& window) override;
-	protected :
+	protected:
+		GLuint ebo;
 		GLuint texture;
 		GLint uniModel;
 		GLint uniProj;
@@ -19,4 +20,7 @@ class Rectangle : public Scene {
 		glm::mat4 model;
 		glm::mat4 proj;
 		glm::mat4 view;
+		unsigned int widthMap;
+		unsigned int heightMap;
 };
+

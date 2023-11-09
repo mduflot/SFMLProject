@@ -5,13 +5,14 @@
 #include "Scene.h"
 #include "bmp.h"
 
-class Rectangle : public Scene {
-	public :
-		Rectangle();
-		~Rectangle();
+class Minimap : public Scene {
+	public:
+		Minimap();
+		~Minimap();
 		virtual void display(sf::Window& window) override;
 		virtual void update(float elapsed, const Camera& camera, sf::Window& window) override;
-	protected :
+	protected:
+		GLuint ebo;
 		GLuint texture;
 		GLint uniModel;
 		GLint uniProj;
@@ -20,3 +21,4 @@ class Rectangle : public Scene {
 		glm::mat4 proj;
 		glm::mat4 view;
 };
+

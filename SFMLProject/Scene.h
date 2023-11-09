@@ -8,10 +8,11 @@ class Scene {
 		Scene();
 		~Scene();
 		virtual void display(sf::Window& window) = 0;
-		virtual void update(float elapsed, const Camera& camera) = 0;
+		virtual void update(float elapsed, const Camera& camera, sf::Window& window) = 0;
 	protected :
 		GLuint vao;
 		GLuint vbo;
+		GLuint ebo;
 		GLuint vertexShader;
 		GLuint fragmentShader;
 		GLuint shaderProgram;

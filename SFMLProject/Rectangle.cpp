@@ -202,6 +202,7 @@ Rectangle::~Rectangle() {
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 	glDeleteBuffers(1, &vbo);
+	glDeleteBuffers(1, &ebo);
 	glDeleteVertexArrays(1, &vao);
 }
 
@@ -221,7 +222,7 @@ void Rectangle::display(sf::Window& window) {
 	glDisable(GL_BLEND);
 }
 
-void Rectangle::update(float elapsed, const Camera& camera) {
+void Rectangle::update(float elapsed, const Camera& camera, sf::Window& window) {
 	model = glm::rotate(model, elapsed, glm::vec3(0.0, 0.0, 1.0));
 	model = glm::rotate(model, elapsed, glm::vec3(0.0, 1.0, 0.0));
 	model = glm::rotate(model, elapsed, glm::vec3(0.0, 1.0, 0.0));

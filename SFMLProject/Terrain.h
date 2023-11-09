@@ -3,16 +3,20 @@
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
 #include "Scene.h"
+#include "Skybox.h"
+#include "Minimap.h"
 #include "bmp.h"
 
 class Terrain : public Scene {
 	public:
 		Terrain();
 		~Terrain();
+		unsigned int widthTexture;
+		unsigned int heightTexture;
+		GLfloat* heightMap;
 		virtual void display(sf::Window& window) override;
-		virtual void update(float elapsed, const Camera& camera) override;
+		virtual void update(float elapsed, const Camera& camera, sf::Window& window) override;
 	protected:
-		GLuint ebo;
 		GLuint texture;
 		GLint uniModel;
 		GLint uniProj;
@@ -20,6 +24,6 @@ class Terrain : public Scene {
 		glm::mat4 model;
 		glm::mat4 proj;
 		glm::mat4 view;
-		unsigned int widthMap;
-		unsigned int heightMap;
+		Skybox* skybox;
+		Minimap* minimap;
 };

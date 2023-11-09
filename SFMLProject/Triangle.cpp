@@ -101,6 +101,6 @@ void Triangle::display(sf::Window& window) {
 	glDisable(GL_BLEND);
 }
 
-void Triangle::update(float elapsed, const Camera& camera) {
+void Triangle::update(float elapsed, const Camera& camera, sf::Window& window) {
 
 }
