@@ -12,7 +12,7 @@ int main() {
 	settings.depthBits = 24;
 	settings.stencilBits = 8;
 	settings.antialiasingLevel = 2;
-	sf::RenderWindow window(sf::VideoMode(1024, 768, 32), "OpenGL", sf::Style::Titlebar | sf::Style::Close, settings);
+	sf::RenderWindow window(sf::VideoMode(1024, 768, 32), "Game Window", sf::Style::Titlebar | sf::Style::Close, settings);
 	sf::Clock clock;
 	glewExperimental = GL_TRUE;
 	glewInit();
@@ -47,25 +47,31 @@ int main() {
 		sf::Vector2i newPos = sf::Vector2i(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
 		sf::Vector2i deltaPos = oldPos - newPos;
 		camera.ProcessMouseMovement(deltaPos.x, deltaPos.y);
-		oldPos = sf::Vector2i(window.getSize().x / 2, window.getSize().y / 2);
-		sf::Mouse::setPosition(sf::Vector2i(window.getSize().x / 2, window.getSize().y / 2));
+		oldPos = newPos;
 
 		if (terrain->heightMap[(((int)camera.Position.z * terrain->widthTexture) + (int)camera.Position.x) * 3 + 1] > camera.Position.y) {
 			camera.Position.y = terrain->heightMap[(((int)camera.Position.z * terrain->widthTexture) + (int)camera.Position.x) * 3 + 1] + 10.0f;
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 			camera.ProcessKeyboard(LEFT, deltaTime);
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 			camera.ProcessKeyboard(RIGHT, deltaTime);
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 			camera.ProcessKeyboard(FORWARD, deltaTime);
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 			camera.ProcessKeyboard(BACKWARD, deltaTime);
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+			camera.ProcessKeyboard(UPWARD, deltaTime);
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
+			camera.ProcessKeyboard(DOWNWARD, deltaTime);
 		}
 
 		// triangle->update(deltaTime, camera);
